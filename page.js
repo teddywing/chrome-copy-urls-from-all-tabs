@@ -7,7 +7,7 @@
 		+ '' 
 		+ ('0' + d.getDate()).slice(-2) 
 		+ '-' 
-		+ d.getHours() 
+		+ ('0' + d.getHours()).slice(-2) 
 		+ 'h' 
 		+ d.getMinutes();
 	
