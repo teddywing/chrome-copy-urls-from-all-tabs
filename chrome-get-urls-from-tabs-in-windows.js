@@ -1,6 +1,7 @@
 var textarea = document.getElementById('copy-area');
 var generate_backup_text;
 var create_download_link;
+var generate_file_string;
 var generate_filename;
 
 
@@ -106,22 +107,26 @@ create_download_link = function(text, callback) {
 };
 
 
+generate_file_string = function() {
+	var d = new Date();
+	var date_string = 
+		d.getFullYear() 
+		+ '' 
+		+ ('0' + (d.getMonth() + 1)).slice(-2) 
+		+ '' 
+		+ ('0' + d.getDate()).slice(-2) 
+		+ '-' 
+		+ ('0' + d.getHours()).slice(-2) 
+		+ 'h' 
+		+ ('0' + d.getMinutes()).slice(-2);
+	
+	return 'chrome-tabs-' + date_string;
+};
+
+
 generate_filename = function(callback) {
 	chrome.storage.sync.get(function(items) {
 		var format = items.file_format;
-		
-		var d = new Date();
-		var date_string = 
-			d.getFullYear() 
-			+ '' 
-			+ ('0' + (d.getMonth() + 1)).slice(-2) 
-			+ '' 
-			+ ('0' + d.getDate()).slice(-2) 
-			+ '-' 
-			+ ('0' + d.getHours()).slice(-2) 
-			+ 'h' 
-			+ ('0' + d.getMinutes()).slice(-2);
-		
 		
 		var file_extension = '';
 		if (format === 'yaml') {
@@ -134,6 +139,6 @@ generate_filename = function(callback) {
 			file_extension = 'txt';
 		}
 		
-		callback('chrome-tabs-' + date_string + '.' + file_extension);
+		callback(generate_file_string() + '.' + file_extension);
 	});
 };
