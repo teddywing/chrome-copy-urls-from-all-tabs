@@ -30,7 +30,26 @@ chrome.extension.onConnect.addListener(function(port) {
 	});
 });
 
+
+function download_backup_file () {
+	generate_backup_text(function(backup_text) {
+		create_download_link(backup_text, function(download_link) {
+			download_link.click()
+		});
+	});
+}
+
+
 // Called when the user clicks on the browser action icon.
 chrome.browserAction.onClicked.addListener(function(tab) {
-	openOrFocusOptionsPage();
+	chrome.storage.sync.get(function(items) {
+		var behaviour = items.button_click_behaviour;
+		
+		if (behaviour === 'download') {
+			download_backup_file();
+		}
+		else { // behaviour === 'window'
+			openOrFocusOptionsPage();
+		}
+	});
 });

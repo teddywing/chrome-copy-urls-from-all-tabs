@@ -12,7 +12,7 @@
   "options_page": "options.html",
   
   "background": {
-      "scripts": ["background.js"],
+      "scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
       "persistent": false
   },
   

@@ -94,14 +94,14 @@ generate_backup_text(function(backup_text) {
 
 // Adapted from:
 // http://stackoverflow.com/a/18197511
-create_download_link = function(text) {
+create_download_link = function(text, callback) {
 	generate_filename(function(filename) {
 		var download_link = document.createElement('a');
 		download_link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
 		download_link.setAttribute('download', filename);
 		download_link.innerHTML = 'Download file';
 		
-		document.getElementById('download-link').appendChild(download_link);
+		callback(download_link);
 	});
 };
 
