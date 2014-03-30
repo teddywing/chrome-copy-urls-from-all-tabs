@@ -1,10 +1,10 @@
 // Saves options to chrome.storage
 function save_options() {
-	var color = document.getElementById('color').value;
-	var likesColor = document.getElementById('like').checked;
+	var button_click_behaviour = document.getElementById('button-click-behaviour').value;
+	var file_format = document.getElementById('file-format').value;
 	chrome.storage.sync.set({
-		favoriteColor: color,
-		likesColor: likesColor
+		button_click_behaviour: button_click_behaviour,
+		file_format: file_format
 	}, function() {
 		// Update status to let user know options were saved.
 		var status = document.getElementById('status');
@@ -20,11 +20,11 @@ function save_options() {
 function restore_options() {
 	// Use default value color = 'red' and likesColor = true.
 	chrome.storage.sync.get({
-		favoriteColor: 'red',
-		likesColor: true
+		button_click_behaviour: 'window',
+		file_format: 'text'
 	}, function(items) {
-		document.getElementById('color').value = items.favoriteColor;
-		document.getElementById('like').checked = items.likesColor;
+		document.getElementById('button-click-behaviour').value = items.button_click_behaviour;
+		document.getElementById('file-format').value = items.file_format;
 	});
 }
 
