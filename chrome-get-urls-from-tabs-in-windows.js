@@ -87,7 +87,7 @@ create_download_link = function(text) {
 		download_link.setAttribute('download', filename);
 		download_link.innerHTML = 'Download file';
 		
-		document.querySelector('body').appendChild(download_link);
+		document.getElementById('download-link').appendChild(download_link);
 	});
 };
 
