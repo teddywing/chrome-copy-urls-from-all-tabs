@@ -2,26 +2,39 @@ var textarea = document.getElementById('copy-area');
 var create_download_link;
 var generate_filename;
 
-chrome.windows.getAll({populate:true},function(windows){
+
+chrome.windows.getAll({populate:true}, function(windows){
 	var w_index = 0;
 	
-	windows.forEach(function(window){
-		textarea.value += "Window " + w_index + ":";
+	chrome.storage.sync.get(function(items) {
+		var format = items.file_format;
+		console.log(format);
 		
-		window.tabs.forEach(function(tab){
-			//collect all of the urls here, I will just log them instead
-			//console.log(tab.url);
-			textarea.value += "\n\t";
-			textarea.value += '* ' + tab.url + "\n";
-			textarea.value += "\t\t" + '<a href="' + tab.url + '">' + tab.title + '</a>';
-		});
+		if (format === 'yaml') {
+			
+		}
+		else if (format === 'html') {
+			
+		}
+		else { // format === 'text'
+			windows.forEach(function(window){
+				textarea.value += "Window " + w_index + ":";
+				
+				window.tabs.forEach(function(tab){
+					textarea.value += "\n";
+					textarea.value += "\t* " + tab.title + "\n";
+					textarea.value += "\t  " + tab.url + "\n";
+				});
 		
-		textarea.value += "\n\n";
+				textarea.value += "\n\n";
 		
-		w_index++;
+				w_index++;
+			});
+		}
+		
+		
+		create_download_link(textarea.value);
 	});
-	
-	create_download_link(textarea.value);
 });
 
 
