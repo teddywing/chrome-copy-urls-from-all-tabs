@@ -8,13 +8,55 @@ chrome.windows.getAll({populate:true}, function(windows){
 	
 	chrome.storage.sync.get(function(items) {
 		var format = items.file_format;
-		console.log(format);
 		
 		if (format === 'yaml') {
+			var chrome_tabs = [];
 			
+			windows.forEach(function(window){
+				// var window_name = 'Window ' + w_index;
+				// 
+				// window.tabs.forEach(function(tab){
+				// 	var window_output = {};
+				// 	window_output[window_name] = [
+				// 		{
+				// 			page_title: tab.title,
+				// 			url: tab.url
+				// 		}
+				// 	];
+				// 	
+				// 	chrome_tabs.push(window_output);
+				// });
+				
+				textarea.value += "- Window " + w_index + ":\n";
+				
+				window.tabs.forEach(function(tab){
+					textarea.value += "  - page_title: '" + tab.title.replace('\'', '\'\'') + "'\n";
+					textarea.value += "    url: '" + tab.url + "'\n";
+				});
+						
+				textarea.value += "\n";
+				
+				// console.log(chrome_tabs);
+				// console.log(YAML.stringify(chrome_tabs));
+				//textarea.value = YAML.stringify(chrome_tabs);
+				
+				w_index++;
+			});
 		}
 		else if (format === 'html') {
-			
+			windows.forEach(function(window){
+				textarea.value += "Window " + w_index + ":";
+				
+				window.tabs.forEach(function(tab){
+					textarea.value += "\n";
+					textarea.value += "\t* " + tab.title + "\n";
+					textarea.value += "\t  " + tab.url + "\n";
+				});
+		
+				textarea.value += "\n\n";
+		
+				w_index++;
+			});
 		}
 		else { // format === 'text'
 			windows.forEach(function(window){
