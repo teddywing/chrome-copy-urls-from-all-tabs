@@ -13,20 +13,6 @@ chrome.windows.getAll({populate:true}, function(windows){
 			var chrome_tabs = [];
 			
 			windows.forEach(function(window){
-				// var window_name = 'Window ' + w_index;
-				// 
-				// window.tabs.forEach(function(tab){
-				// 	var window_output = {};
-				// 	window_output[window_name] = [
-				// 		{
-				// 			page_title: tab.title,
-				// 			url: tab.url
-				// 		}
-				// 	];
-				// 	
-				// 	chrome_tabs.push(window_output);
-				// });
-				
 				textarea.value += "- Window " + w_index + ":\n";
 				
 				window.tabs.forEach(function(tab){
@@ -35,10 +21,6 @@ chrome.windows.getAll({populate:true}, function(windows){
 				});
 						
 				textarea.value += "\n";
-				
-				// console.log(chrome_tabs);
-				// console.log(YAML.stringify(chrome_tabs));
-				//textarea.value = YAML.stringify(chrome_tabs);
 				
 				w_index++;
 			});
