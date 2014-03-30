@@ -90,7 +90,7 @@ generate_filename = function(callback) {
 			+ '-' 
 			+ ('0' + d.getHours()).slice(-2) 
 			+ 'h' 
-			+ d.getMinutes();
+			+ ('0' + d.getMinutes()).slice(-2);
 		
 		
 		var file_extension = '';
