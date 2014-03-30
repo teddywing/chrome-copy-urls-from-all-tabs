@@ -25,6 +25,8 @@ chrome.windows.getAll({populate:true},function(windows){
 });
 
 
+// Adapted from:
+// http://stackoverflow.com/a/18197511
 create_download_link = function(text) {
 	var download_link = document.createElement('a');
 	download_link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
