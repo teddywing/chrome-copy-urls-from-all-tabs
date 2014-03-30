@@ -26,19 +26,35 @@ chrome.windows.getAll({populate:true}, function(windows){
 			});
 		}
 		else if (format === 'html') {
+			textarea.value += '<!doctype html>\n\
+<html lang="en">\n\
+<head>\n\
+	<meta charset="utf-8">\n';
+
+			textarea.value += '	<title>Chrome Copy URLs From All Tabs</title>\n';
+
+			textarea.value += '</head>\n\
+<body>\n\
+	<div role="main">\n';
+			
 			windows.forEach(function(window){
-				textarea.value += "Window " + w_index + ":";
+				textarea.value += "		<h1>Window " + w_index + ":</h1>\n\n";
+				textarea.value += "		<ul>\n";
 				
 				window.tabs.forEach(function(tab){
-					textarea.value += "\n";
-					textarea.value += "\t* " + tab.title + "\n";
-					textarea.value += "\t  " + tab.url + "\n";
+					textarea.value += "			<li>\n"
+					textarea.value += "				<a href=\"" + tab.url + "\">" + tab.title + "</a>\n";
+					textarea.value += "			</li>\n"
 				});
 		
-				textarea.value += "\n\n";
+				textarea.value += "		</ul>\n";
 		
 				w_index++;
 			});
+			
+			textarea.value += '	</div>\n\
+</body>\n\
+</html>';
 		}
 		else { // format === 'text'
 			windows.forEach(function(window){
