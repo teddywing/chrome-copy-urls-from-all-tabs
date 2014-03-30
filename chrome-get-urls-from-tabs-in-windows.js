@@ -65,27 +65,45 @@ chrome.windows.getAll({populate:true}, function(windows){
 // Adapted from:
 // http://stackoverflow.com/a/18197511
 create_download_link = function(text) {
-	var download_link = document.createElement('a');
-	download_link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-	download_link.setAttribute('download', generate_filename());
-	download_link.innerHTML = 'Download file';
-	
-	document.querySelector('body').appendChild(download_link);
+	generate_filename(function(filename) {
+		var download_link = document.createElement('a');
+		download_link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		download_link.setAttribute('download', filename);
+		download_link.innerHTML = 'Download file';
+		
+		document.querySelector('body').appendChild(download_link);
+	});
 };
 
 
-generate_filename = function() {
-	var d = new Date();
-	var date_string = 
-		d.getFullYear() 
-		+ '' 
-		+ ('0' + (d.getMonth() + 1)).slice(-2) 
-		+ '' 
-		+ ('0' + d.getDate()).slice(-2) 
-		+ '-' 
-		+ ('0' + d.getHours()).slice(-2) 
-		+ 'h' 
-		+ d.getMinutes();
-	
-	return 'chrome-tabs-' + date_string + '.txt';
+generate_filename = function(callback) {
+	chrome.storage.sync.get(function(items) {
+		var format = items.file_format;
+		
+		var d = new Date();
+		var date_string = 
+			d.getFullYear() 
+			+ '' 
+			+ ('0' + (d.getMonth() + 1)).slice(-2) 
+			+ '' 
+			+ ('0' + d.getDate()).slice(-2) 
+			+ '-' 
+			+ ('0' + d.getHours()).slice(-2) 
+			+ 'h' 
+			+ d.getMinutes();
+		
+		
+		var file_extension = '';
+		if (format === 'yaml') {
+			file_extension = 'yml';
+		}
+		else if (format === 'html') {
+			file_extension = 'html';
+		}
+		else {
+			file_extension = 'txt';
+		}
+		
+		callback('chrome-tabs-' + date_string + '.' + file_extension);
+	});
 };
