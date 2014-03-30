@@ -9,7 +9,7 @@
 		+ '-' 
 		+ ('0' + d.getHours()).slice(-2) 
 		+ 'h' 
-		+ d.getMinutes();
+		+ ('0' + d.getMinutes()).slice(-2);
 	
 	var header_text = 'chrome-tabs-' + date_string;
 	document.getElementById('header').innerHTML = header_text;
