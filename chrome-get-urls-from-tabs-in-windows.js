@@ -1,79 +1,93 @@
 var textarea = document.getElementById('copy-area');
+var generate_backup_text;
 var create_download_link;
 var generate_filename;
 
 
-chrome.windows.getAll({populate:true}, function(windows){
-	var w_index = 0;
+generate_backup_text = function(callback) {
+	var backup_text = '';
 	
-	chrome.storage.sync.get(function(items) {
-		var format = items.file_format;
+	chrome.windows.getAll({populate:true}, function(windows){
+		var w_index = 0;
 		
-		if (format === 'yaml') {
-			var chrome_tabs = [];
+		chrome.storage.sync.get(function(items) {
+			var format = items.file_format;
 			
-			windows.forEach(function(window){
-				textarea.value += "- Window " + w_index + ":\n";
+			if (format === 'yaml') {
+				var chrome_tabs = [];
 				
-				window.tabs.forEach(function(tab){
-					textarea.value += "  - page_title: '" + tab.title.replace('\'', '\'\'') + "'\n";
-					textarea.value += "    url: '" + tab.url + "'\n";
-				});
+				windows.forEach(function(window){
+					backup_text += "- Window " + w_index + ":\n";
+					
+					window.tabs.forEach(function(tab){
+						backup_text += "  - page_title: '" + tab.title.replace('\'', '\'\'') + "'\n";
+						backup_text += "    url: '" + tab.url + "'\n";
+					});
 						
-				textarea.value += "\n";
-				
-				w_index++;
-			});
-		}
-		else if (format === 'html') {
-			textarea.value += '<!doctype html>\n\
-<html lang="en">\n\
-<head>\n\
-	<meta charset="utf-8">\n';
-
-			textarea.value += '	<title>Chrome Copy URLs From All Tabs</title>\n';
-
-			textarea.value += '</head>\n\
-<body>\n\
-	<div role="main">\n';
-			
-			windows.forEach(function(window){
-				textarea.value += "		<h1>Window " + w_index + ":</h1>\n\n";
-				textarea.value += "		<ul>\n";
-				
-				window.tabs.forEach(function(tab){
-					textarea.value += "			<li>\n"
-					textarea.value += "				<a href=\"" + tab.url + "\">" + tab.title + "</a>\n";
-					textarea.value += "			</li>\n"
+					backup_text += "\n";
+					
+					w_index++;
 				});
+			}
+			else if (format === 'html') {
+				backup_text += '<!doctype html>\n\
+	<html lang="en">\n\
+	<head>\n\
+		<meta charset="utf-8">\n';
 		
-				textarea.value += "		</ul>\n";
-		
-				w_index++;
-			});
-			
-			textarea.value += '	</div>\n\
-</body>\n\
-</html>';
-		}
-		else { // format === 'text'
-			windows.forEach(function(window){
-				textarea.value += "Window " + w_index + ":";
+				backup_text += '	<title>Chrome Copy URLs From All Tabs</title>\n';
 				
-				window.tabs.forEach(function(tab){
-					textarea.value += "\n";
-					textarea.value += "\t* " + tab.title + "\n";
-					textarea.value += "\t  " + tab.url + "\n";
+				backup_text += '</head>\n\
+	<body>\n\
+		<div role="main">\n';
+				
+				windows.forEach(function(window){
+					backup_text += "		<h1>Window " + w_index + ":</h1>\n\n";
+					backup_text += "		<ul>\n";
+					
+					window.tabs.forEach(function(tab){
+						backup_text += "			<li>\n"
+						backup_text += "				<a href=\"" + tab.url + "\">" + tab.title + "</a>\n";
+						backup_text += "			</li>\n"
+					});
+					
+					backup_text += "		</ul>\n";
+					
+					w_index++;
 				});
-		
-				textarea.value += "\n\n";
-		
-				w_index++;
-			});
-		}
-		
-		
-		create_download_link(textarea.value);
+				
+				backup_text += '	</div>\n\
+	</body>\n\
+	</html>';
+			}
+			else { // format === 'text'
+				windows.forEach(function(window){
+					backup_text += "Window " + w_index + ":";
+					
+					window.tabs.forEach(function(tab){
+						backup_text += "\n";
+						backup_text += "\t* " + tab.title + "\n";
+						backup_text += "\t  " + tab.url + "\n";
+					});
+					
+					backup_text += "\n\n";
+					
+					w_index++;
+				});
+			}
+			
+			
+			callback(backup_text);
+		});
+	});
+};
+
+
+generate_backup_text(function(backup_text) {
+	textarea.value = backup_text;
+	
+	create_download_link(textarea.value, function(download_link) {
+		document.getElementById('download-link').appendChild(download_link);
 	});
 });
 
