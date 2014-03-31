@@ -1,0 +1,15 @@
+CHANGELOG
+=========
+
+0.1.0 (2014.03.30):
+	* Change output for text format
+	* Change fonts and other cosmetic changes
+	* Add support for mutiple output formats (text, YAML, & HTML)
+	* Add an options page for setting extension preferences
+	* Add support for file download when the browser_action button is clicked
+	* Add icons
+
+
+0.0.1 (2014.03.25):
+	* Initial beta. Opens a tab on click of browser_action that contains a 
+	  textarea filled with the URLs of all tabs

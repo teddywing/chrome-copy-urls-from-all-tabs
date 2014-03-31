@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<title>Chrome Copy URLs From All Tabs - Options</title>
+	
+	<link rel="stylesheet" href="chrome-bootstrap.css" type="text/css" media="screen" />
+	
+	<style>
+		#main { opacity: 1; }
+		
+		.form-element { margin: 1em 0; }
+	</style>
+</head>
+<body class="chrome-bootstrap">
+	<div class="frame">
+		<div class="mainview view">
+			<div id="main">
+				<header>
+					<h1>Chrome Copy URLs from All Tabs</h1>
+				</header>
+				
+				<div class="content">
+					<div class="form-element">
+						Default button click behaviour:
+						<select id="button-click-behaviour">
+						 <option value="window">Open Window</option>
+						 <option value="download">Download File</option>
+						</select>
+					</div>
+					
+					<div class="form-element">
+						File format:
+						<select id="file-format">
+						 <option value="text">Text</option>
+						 <option value="yaml">YAML</option>
+						 <option value="html">HTML</option>
+						</select>
+					</div>
+					
+					<div class="form-element">
+						<button id="save">Save</button>
+						<span id="status"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="options.js"></script>
+</body>
+</html>
