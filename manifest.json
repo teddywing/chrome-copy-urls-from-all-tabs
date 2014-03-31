@@ -1,23 +1,23 @@
 {
-  "manifest_version": 2,
+	"manifest_version": 2,
 
-  "name": "Chrome Copy URLs From All Tabs",
-  "description": "What the name says",
-  "version": "0.1.0",
-  
-  "browser_action": {
-      
-  },
-  
-  "options_page": "options.html",
-  
-  "background": {
-      "scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
-      "persistent": false
-  },
-  
-  "permissions": [
-      "tabs",
-	  "storage"
-  ]
+	"name": "Chrome Copy URLs From All Tabs",
+	"description": "What the name says",
+	"version": "0.1.0",
+
+	"browser_action": {
+
+	},
+
+	"options_page": "options.html",
+
+	"background": {
+		"scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
+		"persistent": false
+	},
+
+	"permissions": [
+		"tabs",
+		"storage"
+	]
 }
