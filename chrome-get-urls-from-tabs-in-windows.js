@@ -98,7 +98,8 @@ generate_backup_text(function(backup_text) {
 create_download_link = function(text, callback) {
 	generate_filename(function(filename) {
 		var download_link = document.createElement('a');
-		download_link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		var blob = new Blob([text], { type: 'text/plain' });
+		download_link.setAttribute('href', window.URL.createObjectURL(blob));
 		download_link.setAttribute('download', filename);
 		download_link.innerHTML = 'Download file';
 		
