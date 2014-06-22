@@ -2,7 +2,7 @@ TODO
 ====
 
 2014.06.12:
-- Fix Chrome download link bug (filename appears as `download.txt`). See:
+v Fix Chrome download link bug (filename appears as `download.txt`). See:
   https://code.google.com/p/chromium/issues/detail?id=375634
   http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file/18197511#comment36775212_18197511
 
