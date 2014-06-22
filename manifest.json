@@ -3,7 +3,7 @@
 
 	"name": "Chrome Copy URLs From All Tabs",
 	"description": "What the name says",
-	"version": "0.1.1",
+	"version": "0.1.2",
 
 	"icons": {
 		"16": "images/icon-16.png",
