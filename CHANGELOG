@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+0.1.1 (2014.06.22):
+	* Fix bug in Chrome 35+ where the downloaded file has name `download.txt` 
+	  instead of the proper generated filename specified by the extension
+
 0.1.0 (2014.03.30):
 	* Change output for text format
 	* Change fonts and other cosmetic changes
