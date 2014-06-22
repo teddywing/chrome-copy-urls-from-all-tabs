@@ -21,7 +21,7 @@ generate_backup_text = function(callback) {
 					backup_text += "- Window " + w_index + ":\n";
 					
 					window.tabs.forEach(function(tab){
-						backup_text += "  - page_title: '" + tab.title.replace('\'', '\'\'') + "'\n";
+						backup_text += "  - page_title: '" + tab.title.replace(/\'/g, '\'\'') + "'\n";
 						backup_text += "    url: '" + tab.url + "'\n";
 					});
 						
