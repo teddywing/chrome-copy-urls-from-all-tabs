@@ -9,7 +9,7 @@ Currently 3 file formats are available: text, YAML, and HTML.
 
 Preferences can be customised via the Options page. The browser action button that appears in the toolbar can be configured to either open a new tab containing the backup text, or download the text as a file.
 
-The name of the downloaded file is presently not configurable.
+The downloaded file's prefix can be changed if desired.
 
 
 ## Installing
