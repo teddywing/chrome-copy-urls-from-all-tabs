@@ -85,11 +85,13 @@ generate_backup_text = function(callback) {
 
 
 generate_backup_text(function(backup_text) {
-	textarea.value = backup_text;
-	
-	create_download_link(textarea.value, function(download_link) {
-		document.getElementById('download-link').appendChild(download_link);
-	});
+	if (textarea) {
+		textarea.value = backup_text;
+		
+		create_download_link(textarea.value, function(download_link) {
+			document.getElementById('download-link').appendChild(download_link);
+		});
+	}
 });
 
 
