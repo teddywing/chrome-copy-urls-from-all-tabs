@@ -13,9 +13,7 @@ The downloaded file's prefix can be changed if desired.
 
 
 ## Installing
-1. Open the Extensions page in Chrome.
-2. Click the “Load unpacked extension…” button
-3. Choose the directory for this project
+Download the latest .crx file from the [releases](https://github.com/teddywing/chrome-copy-urls-from-all-tabs/releases) page and open it in Chrome.
 
 
 ## License
