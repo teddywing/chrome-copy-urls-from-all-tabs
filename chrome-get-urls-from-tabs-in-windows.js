@@ -110,7 +110,7 @@ create_download_link = function(text, callback) {
 };
 
 
-generate_file_string = function() {
+generate_file_string = function(filename_prefix) {
 	var d = new Date();
 	var date_string = 
 		d.getFullYear() 
@@ -123,7 +123,7 @@ generate_file_string = function() {
 		+ 'h' 
 		+ ('0' + d.getMinutes()).slice(-2);
 	
-	return 'chrome-tabs-' + date_string;
+	return (filename_prefix ? filename_prefix : 'chrome-tabs-') + date_string;
 };
 
 
@@ -142,6 +142,6 @@ generate_filename = function(callback) {
 			file_extension = 'txt';
 		}
 		
-		callback(generate_file_string() + '.' + file_extension);
+		callback(generate_file_string(items.filename_prefix) + '.' + file_extension);
 	});
 };
