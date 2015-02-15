@@ -13,7 +13,7 @@ The downloaded file's prefix can be changed if desired.
 
 
 ## Installing
-Download the latest .crx file from the [releases](https://github.com/teddywing/chrome-copy-urls-from-all-tabs/releases) page and open it in Chrome.
+Download the latest .crx file from the [releases](https://github.com/teddywing/chrome-copy-urls-from-all-tabs/releases) page. Drag and drop the file onto the Chrome Extensions page.
 
 
 ## License
