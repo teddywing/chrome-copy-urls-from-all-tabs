@@ -52,3 +52,11 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		}
 	});
 });
+
+
+// Handle keyboard shortcut
+chrome.commands.onCommand.addListener(function(command) {
+	if (command === 'download') {
+		download_backup_file();
+	}
+});
