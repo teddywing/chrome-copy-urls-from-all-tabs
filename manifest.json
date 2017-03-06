@@ -28,5 +28,14 @@
 	"permissions": [
 		"tabs",
 		"storage"
-	]
+	],
+
+	"commands": {
+		"download": {
+			"suggested_key": {
+				"default": "MacCtrl+L"
+			},
+			"description": "Download URL file"
+		}
+	}
 }
