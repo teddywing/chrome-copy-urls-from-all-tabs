@@ -3,18 +3,19 @@
 
 function openOrFocusOptionsPage() {
 	var optionsUrl = browser.extension.getURL('options.html');
-	browser.tabs.query({}, function(extensionTabs) {
-		var found = false;
-		for (var i=0; i < extensionTabs.length; i++) {
-			if (optionsUrl == extensionTabs[i].url) {
-				found = true;
-				browser.tabs.update(extensionTabs[i].id, {"selected": true});
+	browser.tabs.query({currentWindow: true})
+		.then(function(extensionTabs) {
+			var found = false;
+			for (var i=0; i < extensionTabs.length; i++) {
+				if (optionsUrl == extensionTabs[i].url) {
+					found = true;
+					browser.tabs.update(extensionTabs[i].id);
+				}
 			}
-		}
-		if (found == false) {
-			browser.tabs.create({url: "chrome-get-urls-from-tabs-in-windows.html"});
-		}
-	});
+			if (found == false) {
+				browser.tabs.create({url: "chrome-get-urls-from-tabs-in-windows.html"});
+			}
+		});
 }
 
 // chrome.extension.onConnect.addListener(function(port) {
