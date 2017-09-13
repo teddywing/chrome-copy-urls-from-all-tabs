@@ -5,6 +5,13 @@
 	"description": "What the name says",
 	"version": "0.3.0",
 
+	"applications": {
+		"gecko": {
+			"id": "{0a74ac35-82a7-4c0f-9a65-caf55c4b9cb8}",
+			"strict_min_version": "52.0"
+		}
+	},
+
 	"icons": {
 		"16": "images/icon-16.png",
 		"48": "images/icon-48.png",
