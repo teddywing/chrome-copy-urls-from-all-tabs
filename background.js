@@ -34,7 +34,10 @@ function openOrFocusOptionsPage() {
 function download_backup_file () {
 	generate_backup_text(function(backup_text) {
 		create_download_link(backup_text, function(download_link) {
-			download_link.click()
+			browser.downloads.download({
+				url: download_link.href,
+				filename: download_link.download
+			});
 		});
 	});
 }
