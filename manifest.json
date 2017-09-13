@@ -18,7 +18,9 @@
 		}
 	},
 
-	"options_page": "options.html",
+	"options_ui": {
+		"page": "options.html"
+	},
 
 	"background": {
 		"scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
