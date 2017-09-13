@@ -7,7 +7,7 @@ function save_options() {
 		button_click_behaviour: button_click_behaviour,
 		file_format: file_format,
 		filename_prefix: filename_prefix
-	}, function() {
+	}).then(function() {
 		// Update status to let user know options were saved.
 		var status = document.getElementById('status');
 		status.textContent = 'Options saved.';
@@ -25,7 +25,7 @@ function restore_options() {
 		button_click_behaviour: 'window',
 		file_format: 'text',
 		filename_prefix: 'chrome-tabs-'
-	}, function(items) {
+	}).then(function(items) {
 		document.getElementById('button-click-behaviour').value = items.button_click_behaviour;
 		document.getElementById('file-format').value = items.file_format;
 		document.getElementById('filename-prefix').value = items.filename_prefix;

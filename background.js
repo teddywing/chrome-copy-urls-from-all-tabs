@@ -41,16 +41,17 @@ function download_backup_file () {
 
 // Called when the user clicks on the browser action icon.
 browser.browserAction.onClicked.addListener(function(tab) {
-	browser.storage.sync.get(function(items) {
-		var behaviour = items.button_click_behaviour;
-		
-		if (behaviour === 'download') {
-			download_backup_file();
-		}
-		else { // behaviour === 'window'
-			openOrFocusOptionsPage();
-		}
-	});
+	browser.storage.sync.get('button_click_behaviour')
+		.then(function(items) {
+			var behaviour = items.button_click_behaviour;
+			
+			if (behaviour === 'download') {
+				download_backup_file();
+			}
+			else { // behaviour === 'window'
+				openOrFocusOptionsPage();
+			}
+		});
 });
 
 
