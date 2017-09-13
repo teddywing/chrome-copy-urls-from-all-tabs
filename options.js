@@ -1,9 +1,9 @@
-// Saves options to chrome.storage
+// Saves options to browser.storage
 function save_options() {
 	var button_click_behaviour = document.getElementById('button-click-behaviour').value;
 	var file_format = document.getElementById('file-format').value;
 	var filename_prefix = document.getElementById('filename-prefix').value;
-	chrome.storage.sync.set({
+	browser.storage.sync.set({
 		button_click_behaviour: button_click_behaviour,
 		file_format: file_format,
 		filename_prefix: filename_prefix
@@ -18,10 +18,10 @@ function save_options() {
 }
 
 // Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
+// stored in browser.storage.
 function restore_options() {
 	// Default option values
-	chrome.storage.sync.get({
+	browser.storage.sync.get({
 		button_click_behaviour: 'window',
 		file_format: 'text',
 		filename_prefix: 'chrome-tabs-'

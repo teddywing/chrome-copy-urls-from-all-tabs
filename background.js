@@ -2,17 +2,17 @@
 // http://adamfeuer.com/notes/2013/01/26/chrome-extension-making-browser-action-icon-open-options-page/
 
 function openOrFocusOptionsPage() {
-	var optionsUrl = chrome.extension.getURL('options.html'); 
-	chrome.tabs.query({}, function(extensionTabs) {
+	var optionsUrl = browser.extension.getURL('options.html');
+	browser.tabs.query({}, function(extensionTabs) {
 		var found = false;
 		for (var i=0; i < extensionTabs.length; i++) {
 			if (optionsUrl == extensionTabs[i].url) {
 				found = true;
-				chrome.tabs.update(extensionTabs[i].id, {"selected": true});
+				browser.tabs.update(extensionTabs[i].id, {"selected": true});
 			}
 		}
 		if (found == false) {
-			chrome.tabs.create({url: "chrome-get-urls-from-tabs-in-windows.html"});
+			browser.tabs.create({url: "chrome-get-urls-from-tabs-in-windows.html"});
 		}
 	});
 }
@@ -40,8 +40,8 @@ function download_backup_file () {
 
 
 // Called when the user clicks on the browser action icon.
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.storage.sync.get(function(items) {
+browser.browserAction.onClicked.addListener(function(tab) {
+	browser.storage.sync.get(function(items) {
 		var behaviour = items.button_click_behaviour;
 		
 		if (behaviour === 'download') {
@@ -55,7 +55,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 // Handle keyboard shortcut
-chrome.commands.onCommand.addListener(function(command) {
+browser.commands.onCommand.addListener(function(command) {
 	if (command === 'download') {
 		download_backup_file();
 	}

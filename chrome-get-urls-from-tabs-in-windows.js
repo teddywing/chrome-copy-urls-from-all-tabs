@@ -8,10 +8,10 @@ var generate_filename;
 generate_backup_text = function(callback) {
 	var backup_text = '';
 	
-	chrome.windows.getAll({populate:true}, function(windows){
+	browser.windows.getAll({populate:true}, function(windows){
 		var w_index = 0;
 		
-		chrome.storage.sync.get(function(items) {
+		browser.storage.sync.get(function(items) {
 			var format = items.file_format;
 			
 			if (format === 'yaml') {
@@ -128,7 +128,7 @@ generate_file_string = function(filename_prefix) {
 
 
 generate_filename = function(callback) {
-	chrome.storage.sync.get(function(items) {
+	browser.storage.sync.get(function(items) {
 		var format = items.file_format;
 		
 		var file_extension = '';
