@@ -33,7 +33,8 @@
 	"commands": {
 		"download": {
 			"suggested_key": {
-				"default": "MacCtrl+L"
+				"default": "Alt+L",
+				"mac": "MacCtrl+L"
 			},
 			"description": "Download URL file"
 		}
