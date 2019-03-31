@@ -31,8 +31,7 @@
 	},
 
 	"background": {
-		"scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
-		"persistent": false
+		"scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"]
 	},
 
 	"permissions": [
