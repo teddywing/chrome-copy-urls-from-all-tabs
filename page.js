@@ -1,3 +1,3 @@
 (function() {
-	document.getElementById('header').innerHTML = generate_file_string();
+	document.getElementById('header').textContent = generate_file_string();
 })();
