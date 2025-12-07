@@ -112,7 +112,7 @@ create_download_link = function(text, callback) {
 };
 
 
-function build_blob_url(text) {
+function build_blob_url(text, callback) {
 	const offscreen_url = chrome.runtime.getURL('offscreen.html');
 
 	chrome.offscreen.createDocument({
@@ -133,6 +133,7 @@ function build_blob_url(text) {
 		},
 		function(response) {
 			console.log('!!!!!!!!', response);
+			callback(response);
 		}
 	);
 }
@@ -212,9 +213,21 @@ chrome.runtime.onConnect.addListener(function(port) {
 
 function download_backup_file () {
 	generate_backup_text(function(backup_text) {
-		create_download_link(backup_text, function(download_link) {
-			download_link.click()
+		generate_filename(function(filename) {
+			build_blob_url(
+				backup_text,
+				function(blob_url) {
+					chrome.downloads.download({
+						url: blob_url,
+						filename: filename
+					});
+				}
+			);
 		});
+
+		// create_download_link(backup_text, function(download_link) {
+		// 	download_link.click()
+		// });
 	});
 }
 

@@ -27,7 +27,8 @@
 	"permissions": [
 		"tabs",
 		"storage",
-		"offscreen"
+		"offscreen",
+		"downloads"
 	],
 
 	"commands": {
