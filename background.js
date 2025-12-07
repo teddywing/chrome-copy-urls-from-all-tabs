@@ -113,35 +113,51 @@ create_download_link = function(text, callback) {
 
 
 function build_blob_url(text, callback) {
-	const offscreen_url = chrome.runtime.getURL('offscreen.html');
+	var offscreen_url = chrome.runtime.getURL('offscreen.html');
 
-	chrome.offscreen.createDocument({
-		url: offscreen_url,
-		reasons: ['BLOBS'],
-		justification: 'Generate blob URL.'
-	});
+	var creating_offscreen_document = false;
+
+	chrome.runtime.getContexts({
+		contextTypes: ['OFFSCREEN_DOCUMENT'],
+		documentUrls: [offscreen_url]
+	})
+		.then(function(existing_contexts) {
+			if (existing_contexts.length) {
+			}
+
+			if (!creating_offscreen_document) {
+				creating_offscreen_document = chrome.offscreen.createDocument({
+					url: offscreen_url,
+					reasons: ['BLOBS'],
+					justification: 'Generate blob URL.'
+				});
+			}
+
+			creating_offscreen_document
+				.then(function() {
+					// TODO: Wait until offscreen document has finished opening before sending message.
+					chrome.runtime.sendMessage(
+						{
+								handler: 'url_for_blob',
+								data: text
+						},
+						function(response) {
+							if (chrome.runtime.lastError) {
+								console.error('%%%%%%%', chrome.runtime.lastError);
+								// #=> { "message": "Could not establish connection. Receiving end does not exist." }
+							}
+
+							console.log('!!!!!!!!', response);
+							callback(response);
+						}
+					);
+				});
+		});
 
 	// self.clients.matchAll()
 	// 	.then(function(clients) {
 	// 		clients[0].postMessage(blob, );
 	// 	});
-
-	// TODO: Wait until offscreen document has finished opening before sending message.
-	chrome.runtime.sendMessage(
-		{
-				handler: 'url_for_blob',
-				data: text
-		},
-		function(response) {
-			if (chrome.runtime.lastError) {
-				console.error('%%%%%%%', chrome.runtime.lastError);
-				// #=> { "message": "Could not establish connection. Receiving end does not exist." }
-			}
-
-			console.log('!!!!!!!!', response);
-			callback(response);
-		}
-	);
 }
 
 
