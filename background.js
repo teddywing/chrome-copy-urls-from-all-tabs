@@ -126,12 +126,18 @@ function build_blob_url(text, callback) {
 	// 		clients[0].postMessage(blob, );
 	// 	});
 
+	// TODO: Wait until offscreen document has finished opening before sending message.
 	chrome.runtime.sendMessage(
 		{
 				handler: 'url_for_blob',
 				data: text
 		},
 		function(response) {
+			if (chrome.runtime.lastError) {
+				console.error('%%%%%%%', chrome.runtime.lastError);
+				// #=> { "message": "Could not establish connection. Receiving end does not exist." }
+			}
+
 			console.log('!!!!!!!!', response);
 			callback(response);
 		}
