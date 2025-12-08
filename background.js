@@ -135,7 +135,7 @@ function build_blob_url(text, callback) {
 
 			creating_offscreen_document
 				.then(function() {
-					// TODO: Wait until offscreen document has finished opening before sending message.
+					// TODO: chrome.runtime.sendMessage message must be JSON serializable. Worker.Client.postMessage can accept Blob.
 					chrome.runtime.sendMessage(
 						{
 								handler: 'url_for_blob',
