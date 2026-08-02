@@ -122,18 +122,16 @@ function build_blob_url(text, callback) {
 		documentUrls: [offscreen_url]
 	})
 		.then(function(existing_contexts) {
-			if (existing_contexts.length) {
-			}
-
-			if (!creating_offscreen_document) {
-				creating_offscreen_document = chrome.offscreen.createDocument({
+			var offscreen_document_promise = Promise.resolve();
+			if (!creating_offscreen_document && existing_contexts.length === 0) {
+				offscreen_document_promise = chrome.offscreen.createDocument({
 					url: offscreen_url,
 					reasons: ['BLOBS'],
 					justification: 'Generate blob URL.'
 				});
 			}
 
-			creating_offscreen_document
+			offscreen_document_promise
 				.then(function() {
 					// TODO: chrome.runtime.sendMessage message must be JSON serializable. Worker.Client.postMessage can accept Blob.
 					chrome.runtime.sendMessage(
