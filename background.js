@@ -23,7 +23,6 @@ function build_blob_url(text, callback) {
 			offscreen_document_promise
 				.then(function() {
 					get_mime_type(function(mime_type) {
-						// TODO: chrome.runtime.sendMessage message must be JSON serializable. Worker.Client.postMessage can accept Blob.
 						chrome.runtime.sendMessage(
 							{
 									handler: 'url_for_blob',
@@ -32,22 +31,20 @@ function build_blob_url(text, callback) {
 							},
 							function(response) {
 								if (chrome.runtime.lastError) {
-									console.error('%%%%%%%', chrome.runtime.lastError);
-									// #=> { "message": "Could not establish connection. Receiving end does not exist." }
+									console.error(
+										'build_blob_url: Error sending message to offscreen document',
+										chrome.runtime.lastError
+									);
+									return;
 								}
 
-								console.log('!!!!!!!!', response);
+								console.log('Received blob from offscreen', response);
 								callback(response);
 							}
 						);
 					});
 				});
 		});
-
-	// self.clients.matchAll()
-	// 	.then(function(clients) {
-	// 		clients[0].postMessage(blob, );
-	// 	});
 }
 
 function get_mime_type(callback) {

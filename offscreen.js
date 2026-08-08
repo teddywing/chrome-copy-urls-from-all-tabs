@@ -12,10 +12,3 @@ function url_for_blob(text, mime_type, callback) {
 
 	callback(object_url);
 }
-
-// navigator.serviceWorker.addEventListener(
-// 	'message',
-// 	function(e) {
-// 		e.ports[0].postMessage(URL.createObjectURL(e.data));
-// 	}
-// );
