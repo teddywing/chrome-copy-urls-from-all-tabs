@@ -22,22 +22,25 @@ function build_blob_url(text, callback) {
 
 			offscreen_document_promise
 				.then(function() {
-					// TODO: chrome.runtime.sendMessage message must be JSON serializable. Worker.Client.postMessage can accept Blob.
-					chrome.runtime.sendMessage(
-						{
-								handler: 'url_for_blob',
-								data: text
-						},
-						function(response) {
-							if (chrome.runtime.lastError) {
-								console.error('%%%%%%%', chrome.runtime.lastError);
-								// #=> { "message": "Could not establish connection. Receiving end does not exist." }
-							}
+					get_mime_type(function(mime_type) {
+						// TODO: chrome.runtime.sendMessage message must be JSON serializable. Worker.Client.postMessage can accept Blob.
+						chrome.runtime.sendMessage(
+							{
+									handler: 'url_for_blob',
+									data: text,
+									mime_type: mime_type
+							},
+							function(response) {
+								if (chrome.runtime.lastError) {
+									console.error('%%%%%%%', chrome.runtime.lastError);
+									// #=> { "message": "Could not establish connection. Receiving end does not exist." }
+								}
 
-							console.log('!!!!!!!!', response);
-							callback(response);
-						}
-					);
+								console.log('!!!!!!!!', response);
+								callback(response);
+							}
+						);
+					});
 				});
 		});
 
@@ -46,6 +49,22 @@ function build_blob_url(text, callback) {
 	// 		clients[0].postMessage(blob, );
 	// 	});
 }
+
+function get_mime_type(callback) {
+	chrome.storage.sync.get(function(items) {
+		var format = items.file_format;
+
+		if (format === 'yaml') {
+			callback('text/yaml');
+		}
+		else if (format === 'html') {
+			callback('text/html');
+		}
+		else {
+			callback('text/plain');
+		}
+	});
+};
 
 
 ////////////////////////////////////////////////////////////
