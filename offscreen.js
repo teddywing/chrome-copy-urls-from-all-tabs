@@ -1,0 +1,14 @@
+chrome.runtime.onMessage.addListener(on_message);
+
+function on_message(message, _sender, send_response) {
+	if (message.handler === 'url_for_blob') {
+		url_for_blob(message.data, message.mime_type, send_response);
+	}
+}
+
+function url_for_blob(text, mime_type, callback) {
+	var blob = new Blob([text], { type: mime_type });
+	var object_url = URL.createObjectURL(blob);
+
+	callback(object_url);
+}

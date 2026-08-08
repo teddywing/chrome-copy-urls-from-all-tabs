@@ -1,8 +1,77 @@
+import { backup } from '/backup.js';
+
+
+function build_blob_url(text, callback) {
+	var offscreen_url = chrome.runtime.getURL('offscreen.html');
+
+	var creating_offscreen_document = false;
+
+	chrome.runtime.getContexts({
+		contextTypes: ['OFFSCREEN_DOCUMENT'],
+		documentUrls: [offscreen_url]
+	})
+		.then(function(existing_contexts) {
+			var offscreen_document_promise = Promise.resolve();
+			if (!creating_offscreen_document && existing_contexts.length === 0) {
+				offscreen_document_promise = chrome.offscreen.createDocument({
+					url: offscreen_url,
+					reasons: ['BLOBS'],
+					justification: 'Generate blob URL.'
+				});
+			}
+
+			offscreen_document_promise
+				.then(function() {
+					get_mime_type(function(mime_type) {
+						chrome.runtime.sendMessage(
+							{
+									handler: 'url_for_blob',
+									data: text,
+									mime_type: mime_type
+							},
+							function(response) {
+								if (chrome.runtime.lastError) {
+									console.error(
+										'build_blob_url: Error sending message to offscreen document',
+										chrome.runtime.lastError
+									);
+									return;
+								}
+
+								console.log('Received blob from offscreen', response);
+								callback(response);
+							}
+						);
+					});
+				});
+		});
+}
+
+function get_mime_type(callback) {
+	chrome.storage.sync.get(function(items) {
+		var format = items.file_format;
+
+		if (format === 'yaml') {
+			callback('text/yaml');
+		}
+		else if (format === 'html') {
+			callback('text/html');
+		}
+		else {
+			callback('text/plain');
+		}
+	});
+};
+
+
+////////////////////////////////////////////////////////////
+
+
 // Taken from:
 // http://adamfeuer.com/notes/2013/01/26/chrome-extension-making-browser-action-icon-open-options-page/
 
 function openOrFocusOptionsPage() {
-	var optionsUrl = chrome.extension.getURL('options.html'); 
+	var optionsUrl = chrome.runtime.getURL('options.html'); 
 	chrome.tabs.query({}, function(extensionTabs) {
 		var found = false;
 		for (var i=0; i < extensionTabs.length; i++) {
@@ -17,7 +86,7 @@ function openOrFocusOptionsPage() {
 	});
 }
 
-chrome.extension.onConnect.addListener(function(port) {
+chrome.runtime.onConnect.addListener(function(port) {
 	var tab = port.sender.tab;
 	// This will get called by the content script we execute in
 	// the tab as a result of the user pressing the browser action.
@@ -31,16 +100,24 @@ chrome.extension.onConnect.addListener(function(port) {
 
 
 function download_backup_file () {
-	generate_backup_text(function(backup_text) {
-		create_download_link(backup_text, function(download_link) {
-			download_link.click()
+	backup.generate_backup_text(function(backup_text) {
+		backup.generate_filename(function(filename) {
+			build_blob_url(
+				backup_text,
+				function(blob_url) {
+					chrome.downloads.download({
+						url: blob_url,
+						filename: filename
+					});
+				}
+			);
 		});
 	});
 }
 
 
 // Called when the user clicks on the browser action icon.
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.action.onClicked.addListener(function(tab) {
 	chrome.storage.sync.get(function(items) {
 		var behaviour = items.button_click_behaviour;
 		

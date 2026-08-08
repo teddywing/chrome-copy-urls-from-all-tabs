@@ -1,9 +1,9 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 
 	"name": "Chrome Copy URLs From All Tabs",
 	"description": "What the name says",
-	"version": "0.3.1",
+	"version": "0.4.0",
 
 	"icons": {
 		"16": "images/icon-16.png",
@@ -11,7 +11,7 @@
 		"128": "images/icon-128.png"
 	},
 
-	"browser_action": {
+	"action": {
 		"default_icon": {
 			"19": "images/icon-19.png",
 			"38": "images/icon-38.png"
@@ -21,13 +21,15 @@
 	"options_page": "options.html",
 
 	"background": {
-		"scripts": ["chrome-get-urls-from-tabs-in-windows.js", "background.js"],
-		"persistent": false
+		"service_worker": "background.js",
+		"type": "module"
 	},
 
 	"permissions": [
 		"tabs",
-		"storage"
+		"storage",
+		"offscreen",
+		"downloads"
 	],
 
 	"commands": {

@@ -1,3 +1,5 @@
+import { backup } from '/backup.js';
+
 (function() {
-	document.getElementById('header').innerHTML = generate_file_string();
+	document.getElementById('header').innerHTML = backup.generate_file_string();
 })();
