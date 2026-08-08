@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+0.4.0 (2026.08.08):
+	* Migrate Chrome branch to Manifest V3. The Firefox branch is unchanged.
+
 0.3.1 (2017.12.20):
 	* Fix bug that prevented installation on Windows as a result of the
 	  pre-configured keyboard shortcut
